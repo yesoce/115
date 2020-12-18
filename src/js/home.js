@@ -2,6 +2,7 @@ import Core from './lib/core'
 import UI from './lib/ui'
 import Downloader from './lib/downloader'
 import Secret from './lib/secret'
+import Store from './lib/store'
 
 class Home extends Downloader {
   constructor () {
@@ -28,11 +29,23 @@ class Home extends Downloader {
   initialize () {
     this.context = document.querySelector('iframe[rel="wangpan"]').contentDocument
     UI.init()
-    UI.addMenu(this.context.querySelector('#js_fake_path'), 'beforebegin')
-    this.context.querySelector('.right-tvf').style.display = 'block'
-    this.addMenuButtonEventListener()
-    UI.addContextMenuRPCSectionWithCallback(() => {
-      this.addContextMenuEventListener()
+    const container = this.context.querySelector('#js_operate_box')
+    const createMenu = () => {
+      UI.addMenu(container.querySelector('ul'), 'beforebegin')
+      this.context.querySelector('.right-tvf').style.display = 'block'
+      this.addMenuButtonEventListener()
+      UI.addContextMenuRPCSectionWithCallback(() => {
+        this.addContextMenuEventListener()
+      })
+      UI.updateMenu(Store.getConfigData())
+    }
+    // create a observer on the container
+    new MutationObserver(function (records) {
+      records.filter(function () {
+        return container.querySelector('#exportMenu') === null
+      }).some(createMenu)
+    }).observe(container, {
+      childList: true
     })
     Core.showToast('初始化成功!', 'inf')
     return this

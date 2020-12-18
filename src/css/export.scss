@@ -3,9 +3,9 @@
 
 .export {
   cursor: pointer;
-  float: left;
   font-size: 14px;
   line-height: 32px;
+  margin-right: 10px;
   position: relative;
   text-align: center;
   width: 82px;
@@ -23,7 +23,7 @@
   }
 
   &-button {
-    background: #00a8ff;
+    background: #2777f8;
     border-radius: 4px;
     color: #fff;
     display: block;

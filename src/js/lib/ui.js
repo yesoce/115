@@ -101,7 +101,10 @@ class UI {
       rpcDOMList += rpcDOM
       contextMenuDOMList += `<li><a href="javascript:void(0);" data-url=${rpc.url}>${rpc.name}</a></li>`
     })
-    this.context.querySelector('#aria2List').insertAdjacentHTML('afterbegin', rpcDOMList)
+    const aria2List = this.context.querySelector('#aria2List')
+    if (aria2List) {
+      aria2List.insertAdjacentHTML('afterbegin', rpcDOMList)
+    }
 
     const contextMenuSection = this.context.querySelector('#more-menu-rpc-section ul')
     if (contextMenuSection) {
